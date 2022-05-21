@@ -1,43 +1,20 @@
 package main
 
-//import (
-//	"fmt"
-//	"gorm.io/driver/mysql"
-//	"gorm.io/gorm"
-//)
-//
-//// 新版GORM写法
-//func main() {
-//	dsn := "root:123456@tcp(127.0.0.1:3306)/test_go?charset=utf8mb4&parseTime=True&loc=Local"
-//	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-//	if db == nil || err != nil {
-//		fmt.Println("数据库连接错误: ", err.Error())
-//	}
-//	sqlDB, _ := db.DB()
-//	defer sqlDB.Close()
-//
-//	rows, _ := db.Raw("SELECT topic_id, topic_title FROM topics").Rows()
-//	for rows.Next() {
-//		var t_id int
-//		var t_title string
-//		rows.Scan(&t_id, &t_title)
-//		fmt.Println(t_id, t_title)
-//	}
-//}
-
-//旧版GORM写法
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
+// 新版GORM写法
 func main() {
-	db, err := gorm.Open("mysql", "root:123456@tcp(127.0.0.1:3306)/test_go?charset=utf8mb4&parseTime=True&loc=Local")
+	dsn := "root:123456@tcp(127.0.0.1:3306)/test_go?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if db == nil || err != nil {
 		fmt.Println("数据库连接错误: ", err.Error())
 	}
-	defer db.Close()
+	sqlDB, _ := db.DB()
+	defer sqlDB.Close()
 
 	rows, _ := db.Raw("SELECT topic_id, topic_title FROM topics").Rows()
 	for rows.Next() {
@@ -47,6 +24,29 @@ func main() {
 		fmt.Println(t_id, t_title)
 	}
 }
+
+//旧版GORM写法
+//import (
+//	"fmt"
+//	"github.com/jinzhu/gorm"
+//	_ "github.com/jinzhu/gorm/dialects/mysql"
+//)
+//
+//func main() {
+//	db, err := gorm.Open("mysql", "root:123456@tcp(127.0.0.1:3306)/test_go?charset=utf8mb4&parseTime=True&loc=Local")
+//	if db == nil || err != nil {
+//		fmt.Println("数据库连接错误: ", err.Error())
+//	}
+//	defer db.Close()
+//
+//	rows, _ := db.Raw("SELECT topic_id, topic_title FROM topics").Rows()
+//	for rows.Next() {
+//		var t_id int
+//		var t_title string
+//		rows.Scan(&t_id, &t_title)
+//		fmt.Println(t_id, t_title)
+//	}
+//}
 
 /*
 	参数验证框架：
